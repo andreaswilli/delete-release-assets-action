@@ -3,11 +3,7 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 const { Octokit } = require("@octokit/rest");
 
-try {
-  main();
-} catch (e) {
-  core.setFailed(e.message);
-}
+main().catch((e) => core.setFailed(e.message));
 
 async function main() {
   const tag = core.getInput("tag") || (await getVersionFromPackageJson());

@@ -8509,11 +8509,7 @@ const core = __nccwpck_require__(631);
 const github = __nccwpck_require__(151);
 const { Octokit } = __nccwpck_require__(2575);
 
-try {
-  main();
-} catch (e) {
-  core.setFailed(e.message);
-}
+main().catch((e) => core.setFailed(e.message));
 
 async function main() {
   const tag = core.getInput("tag") || (await getVersionFromPackageJson());
