@@ -8521,13 +8521,13 @@ async function main() {
   const { repo, owner } = github.context.repo;
 
   if (!tag) {
-    core.setFailed(
+    throw new Error(
       "Missing value for 'tag'. Was not specified and failed to read from package.json"
     );
   }
 
   if (!githubToken) {
-    core.setFailed(
+    throw new Error(
       "GitHub Access Token was not specified but is required for this action!"
     );
   }
@@ -8542,7 +8542,7 @@ async function main() {
   const release = releases.find((r) => r.tag_name === `v${tag}`);
 
   if (!release) {
-    core.setFailed(`No release for tag v${tag} found.`);
+    throw new Error(`No release for tag v${tag} found.`);
   }
   core.info(`Release ${release.tag_name} found.`);
 
@@ -8573,8 +8573,8 @@ function getVersionFromPackageJson() {
 
   return new Promise((res) => {
     fs.readFile("./package.json", (err, data) => {
-      if (err) core.setFailed(err);
-      else res(data);
+      if (err) throw new Error(err);
+      else res(data.toJSON().version);
     });
   });
 }
