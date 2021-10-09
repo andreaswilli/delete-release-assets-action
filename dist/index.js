@@ -8562,16 +8562,16 @@ async function main() {
     })
   );
 
-  core.info("Successfully deleted assets!");
+  core.info("Done.");
 }
 
 function getVersionFromPackageJson() {
   core.info("Input 'tag' not specified. Reading version from package.json");
 
   return new Promise((res) => {
-    fs.readFile("./package.json", (err, data) => {
+    fs.readFile("./package.json", "utf-8", (err, data) => {
       if (err) throw new Error(err.message);
-      else res(JSON.parse(data.toString()).version);
+      else res(JSON.parse(data).version);
     });
   });
 }
