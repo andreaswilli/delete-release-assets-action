@@ -32,7 +32,8 @@ async function main() {
   const release = releases.find((r) => r.tag_name === `v${tag}`);
 
   if (!release) {
-    throw new Error(`No release for tag v${tag} found.`);
+    core.notice(`No release for tag v${tag} found.`);
+    return;
   }
   core.info(`Release ${release.tag_name} found.`);
 
