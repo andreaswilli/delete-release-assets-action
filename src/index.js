@@ -63,8 +63,8 @@ function getVersionFromPackageJson() {
 
   return new Promise((res) => {
     fs.readFile("./package.json", (err, data) => {
-      if (err) throw new Error(err);
-      else res(data.toJSON().version);
+      if (err) throw new Error(err.message);
+      else res(JSON.parse(data.toString()).version);
     });
   });
 }
