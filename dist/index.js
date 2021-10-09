@@ -8571,9 +8571,9 @@ async function main() {
 function getVersionFromPackageJson() {
   core.info("Input 'tag' not specified. Reading version from package.json");
 
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     fs.readFile("./package.json", (err, data) => {
-      if (err) rej(err);
+      if (err) core.setFailed(err);
       else res(data);
     });
   });
