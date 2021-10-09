@@ -1,4 +1,4 @@
-import fs from "fs/promises";
+import fs from "fs";
 import core from "@actions/core";
 import github from "@actions/github";
 import { Octokit } from "@octokit/rest";
@@ -62,7 +62,13 @@ async function main() {
   core.info("Successfully deleted assets!");
 }
 
-async function getVersionFromPackageJson() {
+function getVersionFromPackageJson() {
   core.info("Input 'tag' not specified. Reading version from package.json");
-  return (await fs.readFile("./package.json")).toJSON().version;
+
+  return new Promise((res, rej) => {
+    fs.readFile("./package.json", (err, data) => {
+      if (err) rej(err);
+      else res(data);
+    });
+  });
 }
