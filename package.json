@@ -1,0 +1,24 @@
+{
+  "name": "delete-release-assets-action",
+  "version": "1.0.0",
+  "description": "A simple GitHub action which deletes all assets attached to a release. It is mainly designed to make sure electron-builder doesn't fail in case an asset already exists.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreaswilli/delete-release-assets-action.git"
+  },
+  "author": "Andreas Willi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andreaswilli/delete-release-assets-action/issues"
+  },
+  "homepage": "https://github.com/andreaswilli/delete-release-assets-action#readme",
+  "scripts": {
+    "build": "ncc build src/index.js --license licenses.txt"
+  },
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0",
+    "@octokit/rest": "^18.12.0"
+  }
+}
