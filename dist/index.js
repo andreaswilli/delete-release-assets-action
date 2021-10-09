@@ -8546,21 +8546,14 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-
-;// CONCATENATED MODULE: external "fs/promises"
-const promises_namespaceObject = require("fs/promises");
-var promises_default = /*#__PURE__*/__nccwpck_require__.n(promises_namespaceObject);
-// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
-var core = __nccwpck_require__(631);
-var core_default = /*#__PURE__*/__nccwpck_require__.n(core);
-// EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
-var github = __nccwpck_require__(151);
-var github_default = /*#__PURE__*/__nccwpck_require__.n(github);
-// EXTERNAL MODULE: ./node_modules/@octokit/rest/dist-node/index.js
-var dist_node = __nccwpck_require__(2575);
-;// CONCATENATED MODULE: ./src/index.js
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5747);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(631);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(151);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _octokit_rest__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(2575);
 
 
 
@@ -8569,29 +8562,29 @@ var dist_node = __nccwpck_require__(2575);
 try {
   main();
 } catch (e) {
-  core_default().setFailed(e.message);
+  _actions_core__WEBPACK_IMPORTED_MODULE_1___default().setFailed(e.message);
 }
 
 async function main() {
-  const tag = core_default().getInput("tag") || (await getVersionFromPackageJson());
-  const githubToken = core_default().getInput("github_token");
-  const { repo, owner } = (github_default()).context.repo;
+  const tag = _actions_core__WEBPACK_IMPORTED_MODULE_1___default().getInput("tag") || (await getVersionFromPackageJson());
+  const githubToken = _actions_core__WEBPACK_IMPORTED_MODULE_1___default().getInput("github_token");
+  const { repo, owner } = (_actions_github__WEBPACK_IMPORTED_MODULE_2___default().context.repo);
 
   if (!tag) {
-    core_default().setFailed(
+    _actions_core__WEBPACK_IMPORTED_MODULE_1___default().setFailed(
       "Missing value for 'tag'. Was not specified and failed to read from package.json"
     );
   }
 
   if (!githubToken) {
-    core_default().setFailed(
+    _actions_core__WEBPACK_IMPORTED_MODULE_1___default().setFailed(
       "GitHub Access Token was not specified but is required for this action!"
     );
   }
 
-  const octokit = new dist_node/* Octokit */.v({ auth: githubToken });
+  const octokit = new _octokit_rest__WEBPACK_IMPORTED_MODULE_3__/* .Octokit */ .v({ auth: githubToken });
 
-  core_default().info("Getting releases...");
+  _actions_core__WEBPACK_IMPORTED_MODULE_1___default().info("Getting releases...");
   const { data: releases } = await octokit.request(
     `GET /repos/{owner}/{repo}/releases`,
     { owner, repo }
@@ -8599,22 +8592,22 @@ async function main() {
   const release = releases.find((r) => r.tag_name === `v${tag}`);
 
   if (!release) {
-    core_default().setFailed(`No release for tag v${tag} found.`);
+    _actions_core__WEBPACK_IMPORTED_MODULE_1___default().setFailed(`No release for tag v${tag} found.`);
   }
-  core_default().info(`Release ${release.tag_name} found.`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_1___default().info(`Release ${release.tag_name} found.`);
 
   if (!release.draft) {
-    core_default().notice(
+    _actions_core__WEBPACK_IMPORTED_MODULE_1___default().notice(
       `Not deleting assets because ${release.tag_name} is not a draft.`
     );
     return;
   }
 
-  core_default().info(`Found ${release.assets.length} assets.`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_1___default().info(`Found ${release.assets.length} assets.`);
 
   await Promise.all(
     release.assets.map((a) => {
-      core_default().info(`Deleting ${a.name}`);
+      _actions_core__WEBPACK_IMPORTED_MODULE_1___default().info(`Deleting ${a.name}`);
       return octokit.request(
         "DELETE /repos/{owner}/{repo}/releases/assets/{asset_id}",
         { owner, repo, asset_id: a.id }
@@ -8622,12 +8615,18 @@ async function main() {
     })
   );
 
-  core_default().info("Successfully deleted assets!");
+  _actions_core__WEBPACK_IMPORTED_MODULE_1___default().info("Successfully deleted assets!");
 }
 
-async function getVersionFromPackageJson() {
-  core_default().info("Input 'tag' not specified. Reading version from package.json");
-  return (await promises_default().readFile("./package.json")).toJSON().version;
+function getVersionFromPackageJson() {
+  _actions_core__WEBPACK_IMPORTED_MODULE_1___default().info("Input 'tag' not specified. Reading version from package.json");
+
+  return new Promise((res, rej) => {
+    fs__WEBPACK_IMPORTED_MODULE_0___default().readFile("./package.json", (err, data) => {
+      if (err) rej(err);
+      else res(data);
+    });
+  });
 }
 
 })();
