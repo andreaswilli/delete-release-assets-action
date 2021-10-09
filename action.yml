@@ -1,5 +1,8 @@
 name: 'Delete Release Assets'
-description: 'A simple GitHub action which deletes all assets attached to a release. It is mainly designed to make sure electron-builder does not fail in case an asset already exists.'
+description: 'Delete all assets attached to a release. Mainly designed to make sure electron-builder does not fail if asset already exists.'
+branding:
+  icon: 'file-minus'
+  color: 'red'
 inputs:
   tag:
     description: 'Tag name that identifies the release (version is read from package.json if not specified)'
