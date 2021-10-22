@@ -8513,6 +8513,8 @@ main().catch((e) => core.setFailed(e.message));
 
 async function main() {
   const tag = core.getInput("tag") || (await getVersionFromPackageJson());
+  const tagPrefix = core.getInput("tagPrefix");
+  const deleteOnlyFromDrafts = core.getInput("deleteOnlyFromDrafts");
   const githubToken = core.getInput("github_token");
   const { repo, owner } = github.context.repo;
 
@@ -8535,15 +8537,15 @@ async function main() {
     `GET /repos/{owner}/{repo}/releases`,
     { owner, repo }
   );
-  const release = releases.find((r) => r.tag_name === `v${tag}`);
+  const release = releases.find((r) => r.tag_name === `${tagPrefix}${tag}`);
 
   if (!release) {
-    core.notice(`No release for tag v${tag} found.`);
+    core.notice(`No release for tag ${tagPrefix}${tag} found.`);
     return;
   }
   core.info(`Release ${release.tag_name} found.`);
 
-  if (!release.draft) {
+  if (deleteOnlyFromDrafts === "true" && !release.draft) {
     core.notice(
       `Not deleting assets because ${release.tag_name} is not a draft.`
     );

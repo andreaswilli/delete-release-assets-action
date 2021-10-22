@@ -4,10 +4,12 @@ A simple GitHub action which deletes all assets attached to a release. It is mai
 
 ## Inputs
 
-| name           | required? | description                                                                                 |
-| -------------- | --------- | ------------------------------------------------------------------------------------------- |
-| `github_token` | yes       | GitHub Access Token (usually `secrets.GITHUB_TOKEN`)                                        |
-| `tag`          | no        | Tag name that identifies the release (version is read from `package.json` if not specified) |
+| name                   | required? | default  | description                                                                                 |
+| ---------------------- | --------- | -------- | ------------------------------------------------------------------------------------------- |
+| `github_token`         | yes       | -        | GitHub Access Token (usually `secrets.GITHUB_TOKEN`)                                        |
+| `tag`                  | no        | `''`     | Tag name that identifies the release (version is read from `package.json` if not specified) |
+| `tagPrefix`            | no        | `''`     | Prefix that is automatically added to the start of the tag name                             |
+| `deleteOnlyFromDrafts` | no        | `'true'` | Delete assets only from draft releases or all releases                                      |
 
 ## Example usage
 

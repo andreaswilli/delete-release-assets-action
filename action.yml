@@ -8,6 +8,14 @@ inputs:
     description: 'Tag name that identifies the release (version is read from package.json if not specified)'
     required: false
     default: ''
+  tagPrefix:
+    description: 'Prefix that is automatically added to the start of the tag name'
+    required: false
+    default: ''
+  deleteOnlyFromDrafts:
+    description: 'Delete assets only from draft releases or all releases'
+    required: false
+    default: 'true'
   github_token:
     description: 'GitHub Access Token (usually secrets.GITHUB_TOKEN)'
     required: true
