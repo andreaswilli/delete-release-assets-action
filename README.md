@@ -30,4 +30,6 @@ jobs:
         uses: andreaswilli/delete-release-assets-action@<version>
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          tagPrefix: v
+          tag: 1.0.1
 ```
